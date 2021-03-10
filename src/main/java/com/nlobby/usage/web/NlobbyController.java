@@ -1,5 +1,6 @@
 package com.nlobby.usage.web;
 
+import com.nlobby.usage.domain.Access;
 import com.nlobby.usage.domain.Member;
 import com.nlobby.usage.domain.Privacy;
 import com.nlobby.usage.domain.Request;
@@ -30,42 +31,9 @@ public class NlobbyController {
         return "hello";
 
     }
-
     @GetMapping("/request")
-    public List<Request> findAll(){
+    public List<Request> 신청현황조회(){
         return nlobbyService.신청현황조회();
-    }
-
-    //방문객 신청현황
-    @GetMapping("/request/regist/{date}")
-    public Long 방문객신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
-        System.out.println("Date !!! : " +date);
-
-        Calendar  calendar = Calendar.getInstance();
-        Calendar  calendar2 = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar2.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar2.set(Calendar.HOUR_OF_DAY,0);
-        calendar2.add(Calendar.MONTH,1);
-        return nlobbyService.방문객신청현황(calendar.getTime(), calendar2.getTime());
-
-    }
-    @GetMapping("/request/reserve/{date}")
-    public Long 임직원신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.set(Calendar.HOUR_OF_DAY,0);
-
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(date);
-        c2.set(Calendar.HOUR_OF_DAY,0);
-        c2.add(Calendar.MONTH,1);
-
-
-        return nlobbyService.임직원신청현황(c.getTime(), c2.getTime());
-
     }
 
     @GetMapping("/request/name/{name}")
@@ -83,5 +51,10 @@ public class NlobbyController {
     @GetMapping("/privacy")
     public List<Privacy> findPrivacies(){
         return nlobbyService.프라이버시조회();
+    }
+
+    @GetMapping("/access")
+    public List<Access> 방문현황조회(){
+        return nlobbyService.방문현황조회();
     }
 }

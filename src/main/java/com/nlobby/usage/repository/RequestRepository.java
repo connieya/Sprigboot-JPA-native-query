@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
-
+  //방문객-인원-신청
   @Query(value = "select count(*) as 방문신청_인원 \n" +
           "  from vst_visit_request \n" +
           " where start_date <  :date2\n" +
@@ -26,13 +26,34 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
 
 
-  //임원 신청
+  //임원-인원-신청
   @Query(value = "select count(*) as 방문예약_인원 \n" +
           "  from vst_visit_request \n" +
           " where start_date <  :date2 \n" +
           "   and end_date   >= :date\n" +
-          "   and visit_type = 'reserve';",nativeQuery = true)
+          "   and visit_type = 'reserve'",nativeQuery = true)
   Long SearchRequestReserve(@Param("date") Date date, @Param("date2") Date date2);
+
+  //방문객-차량-신청
+  @Query(value = "select count(*) as 방문신청_차량 \n" +
+          "  from vst_visit_request \n" +
+          " where start_date <  :date2 \n" +
+          "   and end_date   >= :date\n" +
+          "   and (visit_type is null or visit_type = 'regist')\n" +
+          "   and char_length(car_number) > 0" ,nativeQuery = true )
+  Long SearchRequestCar(@Param("date") Date date, @Param("date2") Date date2);
+
+
+
+  //임원-차량-신청
+  @Query(value = "select count(*) as 방문예약_차량 \n" +
+          "  from vst_visit_request \n" +
+          " where start_date <  :date2 \n" +
+          "   and end_date   >= :date\n" +
+          "   and visit_type = 'reserve'\n" +
+          "   and char_length(car_number) > 0;",nativeQuery = true )
+  Long SearchRequestCarReserve(@Param("date") Date date, @Param("date2") Date date2);
+
 
 
 

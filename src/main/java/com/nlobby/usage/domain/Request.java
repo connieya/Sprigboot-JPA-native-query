@@ -38,8 +38,8 @@ public class Request {
     @Column(name = "checkout_dt")
     private Date checkoutDate;
 
-//    @OneToMany(mappedBy = "request")
-//    private List<Access> access;
+    @OneToMany(mappedBy = "request")
+    private List<Access> access;
 
 //    private String hash;
 //
