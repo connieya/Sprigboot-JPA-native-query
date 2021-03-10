@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,10 +20,10 @@ public class Request {
     private Long id;
 
     @Column(name = "start_date")
-    private Timestamp startDate;
+    private Date startDate;
 
     @Column(name = "end_date")
-    private Timestamp endDate;
+    private Date endDate;
 
     @Enumerated (EnumType.STRING)
     @Column(name = "visit_type")
@@ -32,10 +33,10 @@ public class Request {
     private String carNumber;
 
     @Column(name = "checkin_dt")
-    private Timestamp checkinDate;
+    private Date checkinDate;
 
     @Column(name = "checkout_dt")
-    private Timestamp checkoutDate;
+    private Date checkoutDate;
 
 //    @OneToMany(mappedBy = "request")
 //    private List<Access> access;

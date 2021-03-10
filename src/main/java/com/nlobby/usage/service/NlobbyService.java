@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +32,16 @@ public class NlobbyService {
 
     }
 
-    public Long 방문객신청현황(Timestamp date){
-        return requestRepository.SearchRequest(date);
+    public Long 방문객신청현황(Date date, Date date2){
+        System.out.println("service date 값 : "+date);
+        System.out.println("service date 2값 : " +date2);
+        return requestRepository.SearchRequest(date ,date2);
+    }
+
+    public Long 임직원신청현황(Date date, Date date2){
+        System.out.println("date : "+date);
+        System.out.println("date2 : "+date2);
+        return requestRepository.SearchRequestReserve(date,date2);
     }
 
     public List<Request> 이름으로신청현황조회(String name){
