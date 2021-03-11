@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,15 @@ public class Request {
 
     @Id
     private Long id;
+
+//    @OneToMany(mappedBy = "request")
+//    private List<Access> access;
+
+
+//    @OneToMany(mappedBy = "request")
+//    @JoinColumn(name = "visit_request_id")
+//    private List<Access> accesses = new ArrayList<>();
+
 
     @Column(name = "start_date")
     private Date startDate;
@@ -38,8 +48,7 @@ public class Request {
     @Column(name = "checkout_dt")
     private Date checkoutDate;
 
-    @OneToMany(mappedBy = "request")
-    private List<Access> access;
+
 
 //    private String hash;
 //

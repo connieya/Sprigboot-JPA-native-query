@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -19,18 +16,38 @@ import java.sql.Timestamp;
 @Table(name = "members")
 public class Member {
 
-    @Id
+    @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
-    private String content;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "name")
-    private String memberName;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-//    private String age;
+    public Long getId() {
+        return id;
+    }
 
-//    private boolean applied;
-//
-//    @Column(name = "create_at")
-//    private Timestamp createAt;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
