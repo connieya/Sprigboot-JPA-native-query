@@ -2,6 +2,7 @@ package com.nlobby.usage.web;
 
 
 import com.nlobby.usage.domain.Access;
+import com.nlobby.usage.domain.AccessList;
 import com.nlobby.usage.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -239,6 +240,40 @@ public class AccessController {
         c2.add(Calendar.MONTH,1);
 
         return accessService.출입차량최대(c.getTime(),c2.getTime());
+
+    }
+
+    @CrossOrigin
+    @GetMapping("/access/list/{date}")
+    public List<Object> 인원일별방문현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        return accessService.인원일별방문현황(c.getTime(),c2.getTime());
+
+    }
+
+    @CrossOrigin
+    @GetMapping("/access/Carlist/{date}")
+    public List<Object> 차량일별방문현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        return accessService.차량일별방문현황(c.getTime(),c2.getTime());
 
     }
 }

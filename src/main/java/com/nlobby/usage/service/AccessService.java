@@ -1,6 +1,7 @@
 package com.nlobby.usage.service;
 
 import com.nlobby.usage.domain.Access;
+import com.nlobby.usage.domain.AccessList;
 import com.nlobby.usage.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,15 @@ public class AccessService {
     public Long 출입차량최대(Date date, Date date2){
         return accessRepository.EntranceCarMax(date,date2);
     }
+
+    public List<Object> 인원일별방문현황(Date date, Date date2){
+        return accessRepository.accessList(date, date2);
+    }
+
+    public List<Object> 차량일별방문현황(Date date, Date date2){
+        return accessRepository.accessCarList(date, date2);
+    }
+
 
 
 }

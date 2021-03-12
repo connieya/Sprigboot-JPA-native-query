@@ -36,4 +36,7 @@ public class Access {
     @Column(name = "exit_date")
     private Timestamp exitDate;
 
+    @Transient
+    private Long count;
+
 }
