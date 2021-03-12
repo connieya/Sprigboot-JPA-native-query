@@ -39,5 +39,20 @@ public class AccessService {
         return accessRepository.SearchVisitAvg(date,date2);
     }
 
+    public String 방문차량최대시간(Date date, Date date2){
+        return accessRepository.SearchVisitCarMax(date,date2);
+    }
+
+    public String 방문차량평균시간(Date date, Date date2){
+        return accessRepository.SearchVisitCarAvg(date,date2);
+    }
+    public Long 출입인원최대(Date date, Date date2){
+        return accessRepository.EntranceMax(date,date2);
+    }
+
+    public Long 출입차량최대(Date date, Date date2){
+        return accessRepository.EntranceCarMax(date,date2);
+    }
+
 
 }

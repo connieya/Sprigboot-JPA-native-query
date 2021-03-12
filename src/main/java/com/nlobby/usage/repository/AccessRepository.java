@@ -68,6 +68,52 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             ,nativeQuery = true)
     String SearchVisitAvg(@Param("date")Date date , @Param("date2") Date date2);
 
+  // 방문 차량 최대시간
+  @Query(value = "select to_char(max(L.exit_date - L.entrance_date),'dd HH24:MI:SS') as 차량최대체류시간 \n" +
+          "  from vst_visit_request R \n" +
+          " inner join vst_access_log L \n" +
+          "     on R.id = L.visit_request_id \n" +
+          " where L.entrance_date >= :date \n" +
+          "   and L.entrance_date <  :date2 \n" +
+          "   and L.exit_date is not null\n" +
+          "   and char_length(car_number) > 0;"
+          ,nativeQuery = true)
+  String SearchVisitCarMax(@Param("date")Date date , @Param("date2") Date date2);
 
+  // 방문 차량 평균시간
+ @Query(value = "select to_char(avg(L.exit_date - L.entrance_date),'dd HH24:MI:SS') as 차량최대체류시간 \n" +
+         "  from vst_visit_request R \n" +
+         " inner join vst_access_log L \n" +
+         "     on R.id = L.visit_request_id \n" +
+         " where L.entrance_date >= :date \n" +
+         "   and L.entrance_date <  :date2 \n" +
+         "   and L.exit_date is not null\n" +
+         "   and char_length(car_number) > 0;"
+         ,nativeQuery = true)
+ String SearchVisitCarAvg(@Param("date")Date date , @Param("date2") Date date2);
+
+
+ // 출입 분석-인원-최대
+ @Query(value = "select count(*) as 일별방문객\n" +
+         "  from vst_access_log \n" +
+         " where entrance_date >= :date \n" +
+         "   and entrance_date <  :date2 \n" +
+         " group by to_char(entrance_date, 'YYYY-MM-DD')\n" +
+         " order by 일별방문객 desc limit 1", nativeQuery = true)
+ Long EntranceMax(@Param("date")Date date , @Param("date2") Date date2);
+
+// 출입 분석 - 차량 - 최대
+@Query(value = "select count(*) as 일별방문차량\n" +
+        "  from vst_visit_request R \n" +
+        " inner join vst_access_log L \n" +
+        "    on R.id = L.visit_request_id \n" +
+        " where L.entrance_date >= :date \n" +
+        "   and L.entrance_date <  :date2 \n" +
+        "   and char_length(R.car_number) > 0 \n" +
+        " group by to_char(L.entrance_date,'YYYY-MM-DD')\n" +
+        " order by 일별방문차량 desc\n" +
+        " limit 1 ", nativeQuery = true)
+Long EntranceCarMax(@Param("date")Date date , @Param("date2") Date date2);
 }
+
 

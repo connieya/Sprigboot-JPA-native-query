@@ -4,6 +4,7 @@ import com.nlobby.usage.domain.Request;
 import com.nlobby.usage.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class RequestController {
 
 
     //방문객 신청현황
+    @CrossOrigin
     @GetMapping("/request/regist/{date}")
     public Long 방문객신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
         System.out.println("Date !!! : " +date);
@@ -34,6 +36,7 @@ public class RequestController {
         return requestService.방문객신청현황(calendar.getTime(), calendar2.getTime());
 
     }
+    @CrossOrigin
     @GetMapping("/request/reserve/{date}")
     public Long 임직원신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
@@ -50,6 +53,7 @@ public class RequestController {
         return requestService.임직원신청현황(c.getTime(), c2.getTime());
 
     }
+    @CrossOrigin
     @GetMapping("/request/registCar/{date}")
     public Long 방문객차량신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
 
@@ -65,7 +69,7 @@ public class RequestController {
 
         return requestService.방문객차량신청현황(c.getTime(), c2.getTime());
     }
-
+    @CrossOrigin
     @GetMapping("/request/reserveCar/{date}")
     public Long 임직원차량신청현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
 
