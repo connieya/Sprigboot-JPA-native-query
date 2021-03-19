@@ -71,13 +71,17 @@ public class AccessService {
         return accessRepository.accessList(date, date2);
     }
 
-    public List<Object> 차량일별방문현황(Date date, Date date2){
+    public List<AccessDto> 차량일별방문현황(Date date, Date date2){
         return accessRepository.accessCarList(date, date2);
     }
 
     // 연습코드
-    public List<AccessDto> 연습코드(Date date, Date date2){
-        return accessRepository.accessExample(date, date2);
+    public List<AccessDto> 인원일별방문현황조회(Date date, Date date2){
+        return accessRepository.accessGetList(date, date2);
+    }
+
+    public List<AccessDto> 차량일별방문현황조회(Date date, Date date2){
+        return accessRepository.accessGetCarList(date, date2);
     }
 
 

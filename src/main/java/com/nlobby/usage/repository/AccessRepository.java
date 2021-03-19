@@ -157,26 +157,33 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             " order by enter_dt asc",nativeQuery = true)
     List<Object[]> accessList(@Param("date") Date date, @Param("date2") Date date2);
 
-    //연습 코드
+    //일별 방문 현황 - 인원 리팩토링
     @Query("select count(a) as count ,to_char(a.entranceDate ,'YYYY-MM-DD') as entrance from Access a " +
             " where a.entranceDate >= :date and a.entranceDate < :date2 " +
             "group by to_char(a.entranceDate ,'YYYY-MM-DD') " +
             "order by to_char(a.entranceDate ,'YYYY-MM-DD') ")
-    List<AccessDto> accessExample(@Param("date") Date date, @Param("date2") Date date2);
+    List<AccessDto> accessGetList(@Param("date") Date date, @Param("date2") Date date2);
 
 
     //일별 방문 현황 - 차량
-    @Query(value = "select count(*) as 일별방문차량,  to_char(L.entrance_date ,'YYYY-MM-DD') as enter_dt \n" +
+    @Query(value = "select count(*) as count,  to_char(L.entrance_date ,'YYYY-MM-DD') as entrance \n" +
             "  from vst_visit_request R \n" +
             " inner join vst_access_log L \n" +
             "    on R.id = L.visit_request_id \n" +
             " where L.entrance_date >= :date \n" +
             "   and L.entrance_date <  :date2 \n" +
             "   and char_length(R.car_number) > 0 \n" +
-            " group by enter_dt \n" +
-            " order by enter_dt asc",nativeQuery = true)
-    List<Object> accessCarList(@Param("date") Date date, @Param("date2") Date date2);
+            " group by entrance \n" +
+            " order by entrance asc",nativeQuery = true)
+    List<AccessDto> accessCarList(@Param("date") Date date, @Param("date2") Date date2);
 
+    //일별 방문 현황 - 차량 리팩토링
+    @Query("select count(a) as count ,to_char(a.entranceDate ,'YYYY-MM-DD') as entrance " +
+            "from Request r JOIN Access a on r.id = a.id" +
+            " where a.entranceDate >= :date and a.entranceDate < :date2 and char_length(r.carNumber) > 0 " +
+            "group by to_char(a.entranceDate ,'YYYY-MM-DD') " +
+            "order by to_char(a.entranceDate ,'YYYY-MM-DD') ")
+    List<AccessDto> accessGetCarList(@Param("date") Date date, @Param("date2") Date date2);
 
 }
 
