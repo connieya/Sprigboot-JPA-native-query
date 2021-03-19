@@ -1,6 +1,7 @@
 package com.nlobby.usage.service;
 
 import com.nlobby.usage.domain.Access;
+import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.domain.AccessList;
 import com.nlobby.usage.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,12 +56,28 @@ public class AccessService {
         return accessRepository.EntranceCarMax(date,date2);
     }
 
-    public List<Object> 인원일별방문현황(Date date, Date date2){
+    public List<Long> 출입인원평균(Date date, Date date2){
+        return accessRepository.EntranceAvg(date,date2);
+    }
+
+    public List<Long> 출입차량평균(Date date, Date date2){
+        return accessRepository.EntranceCarAvg(date,date2);
+    }
+
+    public List<Object[]> 인원일별방문현황(Date date, Date date2){
+        System.out.println("sdaddad : " +date);
+        System.out.println("sdaddad22 : " +date2);
+
         return accessRepository.accessList(date, date2);
     }
 
     public List<Object> 차량일별방문현황(Date date, Date date2){
         return accessRepository.accessCarList(date, date2);
+    }
+
+    // 연습코드
+    public List<AccessDto> 연습코드(Date date, Date date2){
+        return accessRepository.accessExample(date, date2);
     }
 
 

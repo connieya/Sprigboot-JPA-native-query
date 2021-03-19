@@ -86,4 +86,20 @@ public class RequestController {
         return requestService.임직원차량신청현황(c.getTime(), c2.getTime());
     }
 
+    @CrossOrigin
+    @GetMapping("/request/example/{date}")
+    public Long  테스트코드(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY, 0);
+        c2.add(Calendar.MONTH, 1);
+
+        return requestService.테스트코드(c.getTime(),c2.getTime());
+    }
+
 }

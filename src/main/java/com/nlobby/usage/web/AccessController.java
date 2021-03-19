@@ -2,6 +2,7 @@ package com.nlobby.usage.web;
 
 
 import com.nlobby.usage.domain.Access;
+import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.domain.AccessList;
 import com.nlobby.usage.service.AccessService;
 import lombok.RequiredArgsConstructor;
@@ -242,10 +243,9 @@ public class AccessController {
         return accessService.출입차량최대(c.getTime(),c2.getTime());
 
     }
-
     @CrossOrigin
-    @GetMapping("/access/list/{date}")
-    public List<Object> 인원일별방문현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+    @GetMapping("/access/entranceAvg/{date}")
+    public List<Long> 출입인원평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -256,7 +256,76 @@ public class AccessController {
         c2.set(Calendar.HOUR_OF_DAY,0);
         c2.add(Calendar.MONTH,1);
 
+        try {
+            return accessService.출입인원평균(c.getTime(),c2.getTime());
+        }catch (Exception e){
+
+        }
+
+
+
+        return null;
+
+    }
+    @CrossOrigin
+    @GetMapping("/access/entranceCarAvg/{date}")
+    public List<Long> 출입차량평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        try {
+            return accessService.출입차량평균(c.getTime(),c2.getTime());
+        }catch (Exception e){
+
+        }
+
+
+
+        return null;
+
+    }
+
+    @CrossOrigin
+    @GetMapping("/access/list/{date}")
+    public List<Object[]> 인원일별방문현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        System.out.println("ddd"+ c.getTime());
+        System.out.println("ddd22"+ c2.getTime());
+
         return accessService.인원일별방문현황(c.getTime(),c2.getTime());
+//        return c2.getTime();
+
+    }
+    @CrossOrigin
+    @GetMapping("/access/example/{date}")
+    public List<AccessDto> 연습코드(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        return accessService.연습코드(c.getTime(),c2.getTime());
 
     }
 

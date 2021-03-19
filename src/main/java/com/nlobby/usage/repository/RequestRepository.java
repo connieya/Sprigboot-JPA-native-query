@@ -25,6 +25,10 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     Long SearchRequest(@Param("date") Date date , @Param("date2") Date date2);
 
 
+  // 연습 코드
+  @Query("select count(r) from Request r where r.startDate < :date2 and r.endDate >= :date" +
+          " and (r.visitType is null or r.visitType = 'regist') ")
+  Long requestExample(@Param("date") Date date , @Param("date2") Date date2);
 
   //임원-인원-신청
   @Query(value = "select count(*) as 방문예약_인원 \n" +

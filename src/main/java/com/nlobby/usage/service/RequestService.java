@@ -1,10 +1,12 @@
 package com.nlobby.usage.service;
 
+import com.nlobby.usage.domain.Request;
 import com.nlobby.usage.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +35,11 @@ public class RequestService {
         System.out.println("date : "+date);
         System.out.println("date2 : "+date2);
         return requestRepository.SearchRequestCarReserve(date,date2);
+    }
+
+    public Long 테스트코드(Date date, Date date2){
+
+        return requestRepository.requestExample(date, date2);
     }
 
 
