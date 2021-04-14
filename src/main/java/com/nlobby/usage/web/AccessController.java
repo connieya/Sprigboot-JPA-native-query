@@ -110,6 +110,7 @@ public class AccessController {
             data3.setCharAt(9, '분');
             data3.delete(10, 12);
             return data3.toString();
+//            return data;
 
         } catch (Exception e) {
             System.out.println(e);
@@ -245,7 +246,7 @@ public class AccessController {
     }
     @CrossOrigin
     @GetMapping("/access/entranceAvg/{date}")
-    public List<Long> 출입인원평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+    public Long 출입인원평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -269,7 +270,7 @@ public class AccessController {
     }
     @CrossOrigin
     @GetMapping("/access/entranceCarAvg/{date}")
-    public List<Long> 출입차량평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+    public Long 출입차량평균(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
         Calendar c = Calendar.getInstance();
         c.setTime(date);

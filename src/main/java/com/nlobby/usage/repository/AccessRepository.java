@@ -78,7 +78,6 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
     String SearchVisitAvg(@Param("date") Date date, @Param("date2") Date date2);
 
 
-
     // 방문 차량 최대시간
     @Query(value = "select to_char(max(L.exit_date - L.entrance_date),'dd HH24:MI:SS') as 차량최대체류시간 \n" +
             "  from vst_visit_request R \n" +
@@ -127,25 +126,40 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
     Long EntranceCarMax(@Param("date") Date date, @Param("date2") Date date2);
 
     //출입 분석 - 인원 - 평균
-    @Query(value = "select count(*) as 일별방문객\n" +
-            "  from vst_access_log  \n" +
-            " where entrance_date >= :date \n" +
-            "   and entrance_date <  :date2 \n" +
-            " group by to_char(entrance_date, 'YYYY-MM-DD')\n" +
-            " order by 일별방문객 desc; ", nativeQuery = true)
-    List<Long> EntranceAvg(@Param("date") Date date, @Param("date2") Date date2);
+    @Query(value = "select avg(cn) from (\n" +
+            "select to_char(entrance_date, 'yyyy-mm-dd'), count(*) as cn   from vst_access_log \n" +
+            "where :date <= entrance_date  and entrance_date < :date2\n" +
+            "group by to_char(entrance_date, 'yyyy-mm-dd') \n" +
+            "order by to_char(entrance_date, 'yyyy-mm-dd')\n" +
+            ") sbtl", nativeQuery = true)
+    Long EntranceAvg(@Param("date") Date date, @Param("date2") Date date2);
+//    @Query(value = "select count(*) as 일별방문객\n" +
+//            "  from vst_access_log  \n" +
+//            " where entrance_date >= :date \n" +
+//            "   and entrance_date <  :date2 \n" +
+//            " group by to_char(entrance_date, 'YYYY-MM-DD')\n" +
+//            " order by 일별방문객 desc; ", nativeQuery = true)
+//    List<Long> EntranceAvg(@Param("date") Date date, @Param("date2") Date date2);
 
     //출입 분석 - 차량 - 평균
-    @Query(value = " select count(*) as 일별방문차량  \n" +
-            "  from vst_visit_request R \n" +
-            " inner join vst_access_log L \n" +
-            "    on R.id = L.visit_request_id \n" +
-            " where L.entrance_date >= :date \n" +
-            "   and L.entrance_date <  :date2 \n" +
-            "   and char_length(R.car_number) > 0 \n" +
-            " group by to_char(L.entrance_date,'YYYY-MM-DD')\n" +
-            " order by 일별방문차량 desc", nativeQuery = true)
-    List<Long> EntranceCarAvg(@Param("date") Date date, @Param("date2") Date date2);
+    @Query(value = "select avg(cn) from (\n" +
+            "select to_char(entrance_date, 'yyyy-mm-dd'), count(*) as cn   from vst_access_log A\n" +
+            "inner join vst_visit_request R on A.visit_request_id = R.id \n" +
+            "where :date <= entrance_date  and entrance_date < :date2 and length(R.car_number) >0\n" +
+            "group by to_char(entrance_date, 'yyyy-mm-dd') \n" +
+            "order by to_char(entrance_date, 'yyyy-mm-dd')\n" +
+            ") sbtl" , nativeQuery = true)
+    Long EntranceCarAvg(@Param("date") Date date, @Param("date2") Date date2);
+//    @Query(value = " select count(*) as 일별방문차량  \n" +
+//            "  from vst_visit_request R \n" +
+//            " inner join vst_access_log L \n" +
+//            "    on R.id = L.visit_request_id \n" +
+//            " where L.entrance_date >= :date \n" +
+//            "   and L.entrance_date <  :date2 \n" +
+//            "   and char_length(R.car_number) > 0 \n" +
+//            " group by to_char(L.entrance_date,'YYYY-MM-DD')\n" +
+//            " order by 일별방문차량 desc", nativeQuery = true)
+//    List<Long> EntranceCarAvg(@Param("date") Date date, @Param("date2") Date date2);
 
 
     //일별 방문 현황 - 인원
@@ -154,7 +168,7 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             " where entrance_date >= :date \n" +
             "   and entrance_date <  :date2 \n" +
             " group by enter_dt \n" +
-            " order by enter_dt asc",nativeQuery = true)
+            " order by enter_dt asc", nativeQuery = true)
     List<Object[]> accessList(@Param("date") Date date, @Param("date2") Date date2);
 
     //일별 방문 현황 - 인원 리팩토링
@@ -174,7 +188,7 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             "   and L.entrance_date <  :date2 \n" +
             "   and char_length(R.car_number) > 0 \n" +
             " group by entrance \n" +
-            " order by entrance asc",nativeQuery = true)
+            " order by entrance asc", nativeQuery = true)
     List<AccessDto> accessCarList(@Param("date") Date date, @Param("date2") Date date2);
 
     //일별 방문 현황 - 차량 리팩토링

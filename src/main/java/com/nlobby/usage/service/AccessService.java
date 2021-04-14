@@ -56,11 +56,11 @@ public class AccessService {
         return accessRepository.EntranceCarMax(date,date2);
     }
 
-    public List<Long> 출입인원평균(Date date, Date date2){
+    public Long 출입인원평균(Date date, Date date2){
         return accessRepository.EntranceAvg(date,date2);
     }
 
-    public List<Long> 출입차량평균(Date date, Date date2){
+    public Long 출입차량평균(Date date, Date date2){
         return accessRepository.EntranceCarAvg(date,date2);
     }
 
