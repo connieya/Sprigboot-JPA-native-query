@@ -1,5 +1,6 @@
 package com.nlobby.usage.web;
 
+import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.model.ExcelPoI;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
@@ -13,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class ExcelController {
     private final NoticeController noticeController;
 
     @GetMapping("/api/nlobby/request/{date}")
-    public Long nlobbyData(HttpServletResponse response,
+    public String nlobbyData(HttpServletResponse response,
                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
 
 
@@ -47,7 +49,8 @@ public class ExcelController {
         Long entranceAvg = accessController.출입인원평균(date);
         Long entranceCarMax = accessController.출입차량최대(date);
         Long entranceCarAvg = accessController.출입차량평균(date);
-        accessController.차량일별방문현황(date);
+        List<AccessDto> carList = accessController.차량일별방문현황(date);
+        List<AccessDto> accesslist = accessController.인원일별방문현황조회(date);
 
         Long noticeCount = noticeController.알림톡갯수(date);
         Long sms = smsController.SMS갯수(date);
@@ -107,6 +110,23 @@ public class ExcelController {
             visitCount.getCell(6).setCellValue(sms);
             inputStream.close();
 
+//            int i = Integer.parseInt(carList.get(0).getEntrance().substring(8, 10));
+//            System.out.println("i = " +i);
+            for (int k = 40; k<=70; k++){
+                sheet.getRow(k).getCell(2).setCellValue(0);
+                sheet.getRow(k).getCell(3).setCellValue(0);
+            }
+            for (int j = 0; j<carList.size(); j++){
+                int data = Integer.parseInt(carList.get(j).getEntrance().substring(8, 10));
+                int carCount = Integer.parseInt(carList.get(j).getCount());
+                sheet.getRow(39+data).getCell(2).setCellValue(carCount);
+            }
+            for (int z = 0; z < accesslist.size(); z++){
+                int entrance = Integer.parseInt(accesslist.get(z).getEntrance().substring(8,10));
+                int count = Integer.parseInt(accesslist.get(z).getCount());
+                sheet.getRow(39+entrance).getCell(3).setCellValue(count);
+            }
+
             FileOutputStream outputStream = new FileOutputStream("C:\\summernote/nlobby_report.xls");
             workbook.write(outputStream);
             workbook.close();
@@ -116,7 +136,7 @@ public class ExcelController {
         }
 
 
-        return request;
+        return  carList.get(0).getEntrance().substring(8,10);
 
 
     }

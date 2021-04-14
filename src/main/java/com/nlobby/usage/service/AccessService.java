@@ -65,8 +65,8 @@ public class AccessService {
     }
 
     public List<Object[]> 인원일별방문현황(Date date, Date date2){
-        System.out.println("sdaddad : " +date);
-        System.out.println("sdaddad22 : " +date2);
+//        System.out.println("sdaddad : " +date);
+//        System.out.println("sdaddad22 : " +date2);
 
         return accessRepository.accessList(date, date2);
     }

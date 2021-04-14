@@ -306,8 +306,6 @@ public class AccessController {
         c2.set(Calendar.HOUR_OF_DAY,0);
         c2.add(Calendar.MONTH,1);
 
-        System.out.println("ddd"+ c.getTime());
-        System.out.println("ddd22"+ c2.getTime());
 
         return accessService.인원일별방문현황(c.getTime(),c2.getTime());
 //        return c2.getTime();
