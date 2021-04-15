@@ -50,7 +50,7 @@ public class ExcelController {
         Long entranceCarMax = accessController.출입차량최대(date);
         Long entranceCarAvg = accessController.출입차량평균(date);
         List<AccessDto> carList = accessController.차량일별방문현황(date);
-        List<AccessDto> accesslist = accessController.인원일별방문현황조회(date);
+        List<AccessDto> accesslist = accessController.인원일별방문현황(date);
 
         Long noticeCount = noticeController.알림톡갯수(date);
         Long sms = smsController.SMS갯수(date);

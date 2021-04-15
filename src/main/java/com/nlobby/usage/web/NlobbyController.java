@@ -11,12 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -56,5 +51,13 @@ public class NlobbyController {
     @GetMapping("/access")
     public List<Access> 방문현황조회(){
         return nlobbyService.방문현황조회();
+    }
+
+
+    @GetMapping("/date/{date}")
+    public void 날짜변환(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDateTime date){
+
+        System.out.println("날짜 데이터 확인하기 : " +date);
+
     }
 }
