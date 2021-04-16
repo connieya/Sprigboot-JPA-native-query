@@ -1,15 +1,95 @@
 # 기억보단 기록을!
-[날짜변환](#native-query)
+[날짜변환](#날짜-변환)
 
 [native query](#native-query)
 
 [연관관계](#연관관계)
 
+
+
+
+
+
+
+
+
+
 # 날짜 변환
-DB에서 날짜 별로 데이터를 가져오기 위해 url에 
+1. DB에서 날짜 별로 데이터를 가져오기 위해 url에 
 2021-02-01 와 같은 날짜 데이터를 입력한다.
 하지만 2021-02-01은 String 타입이기 때문에
 Date 타입으로 받으려고하면 오류가 발생한다.
+
+=> @DateTimeFormat 어노테이션 사용
+
+2. 날짜 데이터 Calendar 클래스로 format 모듈화
+작업 
+
+`DateDate.java`
+```java
+public class DateData {
+    
+    public static Date getMonth(Date date){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR,0);
+
+        Date time = calendar.getTime();
+        
+        return time;
+    }
+    public static Date getMonth2(Date date){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR,0);
+        calendar.add(Calendar.MONTH,1);
+
+        Date time = calendar.getTime();
+
+        return time;
+    }
+}
+```
+
+중복된 코드 모듈화로 해결
+
+
+`AccessController.java`
+
+```java
+@CrossOrigin
+    @GetMapping("/access/visit/{date}")
+    public Long 방문인원현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY,0);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date);
+        c2.set(Calendar.HOUR_OF_DAY,0);
+        c2.add(Calendar.MONTH,1);
+
+        return accessService.방문인원현황(c.getTime(),c2.getTime());
+
+    }
+```
+```java
+@CrossOrigin
+    @GetMapping("/access/visit/{date}")
+    public Long 방문인원현황(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+
+        return accessService.방문인원현황(DateData.getMonth(date),DateData.getMonth2(date));
+
+    }
+```
+
+중복된 코드 제거하면서 가독성 또한 좋아짐
+
+
 *****
 # native query
 

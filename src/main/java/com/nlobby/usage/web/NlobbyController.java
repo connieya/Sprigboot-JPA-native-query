@@ -1,9 +1,6 @@
 package com.nlobby.usage.web;
 
-import com.nlobby.usage.domain.Access;
-import com.nlobby.usage.domain.Member;
-import com.nlobby.usage.domain.Privacy;
-import com.nlobby.usage.domain.Request;
+import com.nlobby.usage.domain.*;
 import com.nlobby.usage.service.NlobbyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,6 +18,7 @@ import java.util.List;
 public class NlobbyController {
 
     private final NlobbyService nlobbyService;
+    private final RequestController requestController;
 
     @GetMapping("/")
     public String  hello(){
@@ -55,9 +55,14 @@ public class NlobbyController {
 
 
     @GetMapping("/date/{date}")
-    public void 날짜변환(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDateTime date){
+    public String 날짜변환(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
-        System.out.println("날짜 데이터 확인하기 : " +date);
+
+        DateData.getMonth(date);
+        DateData.getMonth2(date);
+
+
+        return DateData.serialization(date);
 
     }
 }

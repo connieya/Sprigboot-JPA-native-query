@@ -5,11 +5,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "vst_notice")
-public class Notice {
+@Table(name = "vst_host_user")
+public class Host {
 
     @Id
     private Long id;
-
-
 }

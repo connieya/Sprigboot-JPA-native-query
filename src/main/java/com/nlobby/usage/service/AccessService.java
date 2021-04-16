@@ -3,12 +3,12 @@ package com.nlobby.usage.service;
 import com.nlobby.usage.domain.Access;
 import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.domain.AccessList;
+import com.nlobby.usage.domain.IntervalDto;
 import com.nlobby.usage.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import javax.xml.datatype.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +35,10 @@ public class AccessService {
     }
     public String 방문인원최대시간(Date date, Date date2){
         return accessRepository.SearchVisitMax(date,date2);
+    }
+
+    public IntervalDto 방문인원최대시간2(Date date, Date date2){
+        return accessRepository.SearchVisitMax2(date, date2);
     }
 
     public String 방문인원평균시간(Date date, Date date2){

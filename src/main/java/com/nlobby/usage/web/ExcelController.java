@@ -24,6 +24,7 @@ public class ExcelController {
     private final AccessController accessController;
     private final SmsController smsController;
     private final NoticeController noticeController;
+    private final HostController hostController;
 
     @GetMapping("/api/nlobby/request/{date}")
     public String nlobbyData(HttpServletResponse response,
@@ -54,6 +55,8 @@ public class ExcelController {
 
         Long noticeCount = noticeController.알림톡갯수(date);
         Long sms = smsController.SMS갯수(date);
+
+        Long userCount = hostController.사용자수();
         try {
             FileInputStream inputStream = new FileInputStream("C:\\summernote/nlobby_report.xls");
             Workbook workbook = WorkbookFactory.create(inputStream);
@@ -110,8 +113,8 @@ public class ExcelController {
             visitCount.getCell(6).setCellValue(sms);
             inputStream.close();
 
-//            int i = Integer.parseInt(carList.get(0).getEntrance().substring(8, 10));
-//            System.out.println("i = " +i);
+            sheet.getRow(4).getCell(6).setCellValue(userCount);
+
             for (int k = 40; k<=70; k++){
                 sheet.getRow(k).getCell(2).setCellValue(0);
                 sheet.getRow(k).getCell(3).setCellValue(0);

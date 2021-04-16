@@ -2,6 +2,7 @@ package com.nlobby.usage.repository;
 
 import com.nlobby.usage.domain.Access;
 import com.nlobby.usage.domain.AccessDto;
+import com.nlobby.usage.domain.IntervalDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -62,6 +63,13 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             , nativeQuery = true)
     String SearchVisitMax(@Param("date") Date date, @Param("date2") Date date2);
 
+    //방문 인원 최대 시간 #2
+    @Query(value = "select max(exit_date - entrance_date) as 인원최대체류시간 \n" +
+            "  from vst_access_log \n" +
+            " where entrance_date >= :date \n" +
+            "   and entrance_date <  :date2 \n" +
+            "   and exit_date is not null",nativeQuery = true)
+    IntervalDto SearchVisitMax2(@Param("date") Date date, @Param("date2") Date date2);
 
     //방문 인원 평균시간
     @Query(value = "select to_char(avg(exit_date - entrance_date),'dd HH24:MI:SS' ) as 인원최대체류시간 \n" +
