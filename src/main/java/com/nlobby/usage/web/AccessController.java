@@ -206,7 +206,11 @@ public class AccessController {
 
             entranceCount[arrayValue-1] = Integer.parseInt(result.get(i).getCount());
         }
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return  entranceCount;
     }
     @CrossOrigin
@@ -221,6 +225,11 @@ public class AccessController {
             accessDate[i] = i+1;
         }
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return accessDate;
     }
 
@@ -242,6 +251,11 @@ public class AccessController {
             entranceCarCount[arrayValue-1] = Integer.parseInt(result2.get(i).getCount());
         }
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return  entranceCarCount;
 
     }
