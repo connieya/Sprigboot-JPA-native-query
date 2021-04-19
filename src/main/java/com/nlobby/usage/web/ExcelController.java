@@ -3,16 +3,17 @@ package com.nlobby.usage.web;
 import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.model.ExcelPoI;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +27,11 @@ public class ExcelController {
     private final NoticeController noticeController;
     private final HostController hostController;
 
-    @GetMapping("/api/nlobby/request/{date}")
-    public String nlobbyData(HttpServletResponse response,
-                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) {
+    @CrossOrigin
+    @RequestMapping("/api/nlobby/request/{date}/report.xls")
+    public ServletOutputStream nlobbyData(HttpServletResponse response,
+                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) throws IOException {
+
 
 
         Long request = requestController.방문객신청현황(date);
@@ -58,7 +61,7 @@ public class ExcelController {
 
         Long userCount = hostController.사용자수();
         try {
-            FileInputStream inputStream = new FileInputStream("C:\\summernote/nlobby_report.xls");
+            FileInputStream inputStream = new FileInputStream("C:\\summernote/ttt.xls");
             Workbook workbook = WorkbookFactory.create(inputStream);
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -113,7 +116,28 @@ public class ExcelController {
             visitCount.getCell(6).setCellValue(sms);
             inputStream.close();
 
+            // 사용자 수
             sheet.getRow(4).getCell(6).setCellValue(userCount);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+            String formatDate = sdf.format(date);
+            System.out.println("formatDate = " +formatDate);
+            String year = formatDate.substring(0, 4);
+            String month = formatDate.substring(5, formatDate.length());
+
+            Font font = workbook.createFont();
+            font.setFontHeightInPoints((short) 18);
+            font.setFontName("맑은 고딕");
+            font.setBold(true);
+
+            CellStyle style = workbook.createCellStyle();
+            style.setAlignment(HorizontalAlignment.CENTER);
+            style.setFont(font);
+
+            Cell header = sheet.getRow(0).getCell(0);
+            header.setCellStyle(style);
+            header.setCellValue(year+"년 "+month+"월 서비스 이용현황");
+
 
             for (int k = 40; k<=70; k++){
                 sheet.getRow(k).getCell(2).setCellValue(0);
@@ -130,16 +154,20 @@ public class ExcelController {
                 sheet.getRow(39+entrance).getCell(3).setCellValue(count);
             }
 
-            FileOutputStream outputStream = new FileOutputStream("C:\\summernote/nlobby_report.xls");
-            workbook.write(outputStream);
+//            FileOutputStream outputStream = new FileOutputStream("C:\\summernote/exam.xls");
+//            FileOutputStream outputStream = new FileOutputStream("C:\\");
+            workbook.write(response.getOutputStream());
             workbook.close();
-            outputStream.close();
+//            outputStream.flush();
+//            outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        return  carList.get(0).getEntrance().substring(8,10);
+
+
+        return  response.getOutputStream();
 
 
     }

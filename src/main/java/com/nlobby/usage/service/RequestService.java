@@ -26,8 +26,6 @@ public class RequestService {
     }
 
     public Long 임직원차량신청현황(Date date, Date date2){
-        System.out.println("date : "+date);
-        System.out.println("date2 : "+date2);
         return requestRepository.SearchRequestCarReserve(date,date2);
     }
 
