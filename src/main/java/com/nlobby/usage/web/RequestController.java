@@ -1,7 +1,6 @@
 package com.nlobby.usage.web;
 
 import com.nlobby.usage.domain.DateData;
-import com.nlobby.usage.domain.Request;
 import com.nlobby.usage.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

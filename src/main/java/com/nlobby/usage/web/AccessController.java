@@ -4,6 +4,7 @@ package com.nlobby.usage.web;
 import com.nlobby.usage.domain.AccessDto;
 import com.nlobby.usage.domain.DateData;
 import com.nlobby.usage.domain.IntervalDto;
+import com.nlobby.usage.domain.StringFormatting;
 import com.nlobby.usage.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.datatype.Duration;
+import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -61,25 +64,13 @@ public class AccessController {
 
 
         String data = accessService.방문인원최대시간(DateData.getMonth(date),DateData.getMonth2(date));
-        try {
-            StringBuilder data2 = new StringBuilder(data);
-            StringBuilder data3 = data2.insert(2, '일');
-            data3.setCharAt(6, '시');
-            data3.setCharAt(9, '분');
-            data3.delete(10, 12);
-            return data3.toString();
-//            return data;
+        return StringFormatting.문자열변환(data);
 
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
-        return null;
     }
 
     @CrossOrigin
     @GetMapping("/access/visitMaxTime2/{date}")
-    public IntervalDto 방문인원최대시간2(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
+    public Period 방문인원최대시간2(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date){
 
         return accessService.방문인원최대시간2(DateData.getMonth(date),DateData.getMonth2(date));
     }
@@ -90,20 +81,8 @@ public class AccessController {
         String data =
                 accessService.방문인원평균시간(DateData.getMonth(date),DateData.getMonth2(date));
 
+        return StringFormatting.문자열변환(data);
 
-        try {
-            StringBuilder data2 = new StringBuilder(data);
-            StringBuilder data3 = data2.insert(2, '일');
-            data3.setCharAt(6, '시');
-            data3.setCharAt(9, '분');
-            data3.delete(10, 12);
-            return data3.toString();
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
-        return null;
 
     }
     @CrossOrigin
@@ -113,20 +92,7 @@ public class AccessController {
         String data =
                 accessService.방문차량최대시간(DateData.getMonth(date),DateData.getMonth2(date));
 
-        try {
-            StringBuilder data2 = new StringBuilder(data);
-            StringBuilder data3 = data2.insert(2, '일');
-            data3.setCharAt(6, '시');
-            data3.setCharAt(9, '분');
-            data3.delete(10, 12);
-            return data3.toString();
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
-        return null;
-
+        return StringFormatting.문자열변환(data);
     }
     @CrossOrigin
     @GetMapping("/access/visitCarAvgTime/{date}")
@@ -135,19 +101,7 @@ public class AccessController {
         String data =
                 accessService.방문차량평균시간(DateData.getMonth(date), DateData.getMonth2(date));
 
-        try {
-            StringBuilder data2 = new StringBuilder(data);
-            StringBuilder data3 = data2.insert(2, '일');
-            data3.setCharAt(6, '시');
-            data3.setCharAt(9, '분');
-            data3.delete(10, 12);
-            return data3.toString();
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-        }
-        return null;
+        return StringFormatting.문자열변환(data);
 
     }
     @CrossOrigin

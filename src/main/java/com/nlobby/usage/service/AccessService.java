@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.xml.datatype.Duration;
+import java.time.Period;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class AccessService {
         return accessRepository.SearchVisitMax(date,date2);
     }
 
-    public IntervalDto 방문인원최대시간2(Date date, Date date2){
+    public Period 방문인원최대시간2(Date date, Date date2){
         return accessRepository.SearchVisitMax2(date, date2);
     }
 

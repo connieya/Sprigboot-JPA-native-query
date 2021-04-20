@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.EntityManager;
+import java.time.Period;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
     Long SearchCarNotAccess(@Param("date") Date date, @Param("date2") Date date2);
 
     //방문 인원 최대 시간
-    @Query(value = "select to_char(max(exit_date - entrance_date),'dd HH24:MI:SS' ) as 인원최대체류시간 \n" +
+    @Query(value = "select to_char(max(exit_date - entrance_date),'dd HH24:MI' ) as 인원최대체류시간 \n" +
             "  from vst_access_log \n" +
             " where entrance_date >= :date \n" +
             "   and entrance_date <  :date2 \n" +
@@ -69,10 +70,10 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
             " where entrance_date >= :date \n" +
             "   and entrance_date <  :date2 \n" +
             "   and exit_date is not null",nativeQuery = true)
-    IntervalDto SearchVisitMax2(@Param("date") Date date, @Param("date2") Date date2);
+    Period SearchVisitMax2(@Param("date") Date date, @Param("date2") Date date2);
 
     //방문 인원 평균시간
-    @Query(value = "select to_char(avg(exit_date - entrance_date),'dd HH24:MI:SS' ) as 인원최대체류시간 \n" +
+    @Query(value = "select to_char(avg(exit_date - entrance_date),'dd HH24:MI' ) as 인원최대체류시간 \n" +
             "  from vst_access_log \n" +
             " where entrance_date >= :date \n" +
             "   and entrance_date <  :date2 \n" +
@@ -82,7 +83,7 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
 
 
     // 방문 차량 최대시간
-    @Query(value = "select to_char(max(L.exit_date - L.entrance_date),'dd HH24:MI:SS') as 차량최대체류시간 \n" +
+    @Query(value = "select to_char(max(L.exit_date - L.entrance_date),'dd HH24:MI') as 차량최대체류시간 \n" +
             "  from vst_visit_request R \n" +
             " inner join vst_access_log L \n" +
             "     on R.id = L.visit_request_id \n" +
@@ -94,7 +95,7 @@ public interface AccessRepository extends JpaRepository<Access, Long> {
     String SearchVisitCarMax(@Param("date") Date date, @Param("date2") Date date2);
 
     // 방문 차량 평균시간
-    @Query(value = "select to_char(avg(L.exit_date - L.entrance_date),'dd HH24:MI:SS') as 차량최대체류시간 \n" +
+    @Query(value = "select to_char(avg(L.exit_date - L.entrance_date),'dd HH24:MI') as 차량최대체류시간 \n" +
             "  from vst_visit_request R \n" +
             " inner join vst_access_log L \n" +
             "     on R.id = L.visit_request_id \n" +

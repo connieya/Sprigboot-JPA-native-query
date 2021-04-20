@@ -1,9 +1,7 @@
 package com.nlobby.usage.web;
 
 import com.nlobby.usage.domain.AccessDto;
-import com.nlobby.usage.model.ExcelPoI;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -121,7 +118,6 @@ public class ExcelController {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
             String formatDate = sdf.format(date);
-            System.out.println("formatDate = " +formatDate);
             String year = formatDate.substring(0, 4);
             String month = formatDate.substring(5, formatDate.length());
 
