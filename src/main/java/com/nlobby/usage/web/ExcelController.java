@@ -25,7 +25,7 @@ public class ExcelController {
     private final HostController hostController;
 
     @CrossOrigin
-    @RequestMapping("/api/nlobby/request/{date}/report.xls")
+    @GetMapping("/api/nlobby/request/{date}/report.xls")
     public ServletOutputStream nlobbyData(HttpServletResponse response,
                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable Date date) throws IOException {
 
@@ -142,12 +142,12 @@ public class ExcelController {
             for (int j = 0; j<carList.size(); j++){
                 int data = Integer.parseInt(carList.get(j).getEntrance().substring(8, 10));
                 int carCount = Integer.parseInt(carList.get(j).getCount());
-                sheet.getRow(39+data).getCell(2).setCellValue(carCount);
+                sheet.getRow(39+data).getCell(3).setCellValue(carCount);
             }
             for (int z = 0; z < accesslist.size(); z++){
                 int entrance = Integer.parseInt(accesslist.get(z).getEntrance().substring(8,10));
                 int count = Integer.parseInt(accesslist.get(z).getCount());
-                sheet.getRow(39+entrance).getCell(3).setCellValue(count);
+                sheet.getRow(39+entrance).getCell(2).setCellValue(count);
             }
 
 //            FileOutputStream outputStream = new FileOutputStream("C:\\summernote/exam.xls");
